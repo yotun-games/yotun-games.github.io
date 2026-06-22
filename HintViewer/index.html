@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title id="pageTitle"></title>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+
+<style>
+body{font-family:sans-serif;margin:10px;font-size:14px;}
+h1{font-size:20px;}
+
+#levelPanel{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px;}
+
+.levelBtn{
+  padding:12px 16px;
+  cursor:pointer;
+  border:1px solid #ccc;
+  background:#eee;
+  border-radius:6px;
+}
+
+#mermaid{
+  border:1px solid #ccc;
+  padding:10px;
+  overflow:auto;
+  height:70vh;
+  position:relative;
+  scroll-behavior:smooth;
+}
+
+#mermaid svg{
+  transform-origin: 0 0;
+  transition: transform 0.2s ease;
+}
+
+#legend{margin-bottom:10px;font-size:14px;}
+
+.legendBox{
+  display:inline-block;
+  width:14px;height:14px;
+  margin-right:5px;
+  border:1px solid #888;
+}
+
+#modal{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,0.6);
+  display:none;align-items:center;justify-content:center;
+}
+
+#modalContent{
+  background:white;padding:20px;
+  width:95%;max-width:400px;
+  border-radius:10px;
+}
+
+.hintBtn{
+  display:block;width:100%;
+  padding:14px;margin:8px 0;
+  border:none;cursor:pointer;
+  border-radius:6px;
+}
+
+.hintContent{
+  margin-top:5px;
+  padding:6px;
+  border-radius:6px;
+}
+
+.fakeText{line-height:1.6;letter-spacing:2px;color:#666;}
+.fakeLine{display:block;}
+
+.locked{filter: blur(6px);opacity:0.7;}
+
+/* ===== BOOT ===== */
+#introOverlay{
+  position:fixed;
+  inset:0;
+  background:black;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+
+  color:#00ffe5;
+
+  font-size:clamp(16px, 4vw, 28px);
+  letter-spacing:0.2em;
+
+  font-weight:bold;
+  text-shadow:0 0 10px #00ffe5,0 0 30px #00ffe5;
+
+  text-align:center;
+  padding:20px;
+  box-sizing:border-box;
+  line-height:1.4;
+  word-break:break-word;
+}
+
+#guideBtn{
+  position:fixed;
+  top:10px;
+  right:10px;
+  z-index:10000;
+
+  padding:10px 14px;
+  background:#333;
+  color:#fff;
+  text-decoration:none;
+  border-radius:8px;
+
+  font-size:13px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.3);
+
+  transition:0.2s;
+
+  opacity:0;
+  pointer-events:none;
+}
+
+#guideBtn.show{
+  opacity:1;
+  pointer-events:auto;
+}
+
+#credit{
+  margin-top:6px;
+  font-size:11px;
+  color:#bbb;
+  text-align:center;
+}
+
+#credit a{
+  color:#bbb;
+  text-decoration:underline;
+}
+
+#credit a:hover{
+  color:#666;
+}
+</style>
+</head>
+
+<body>
+
+<div id="introOverlay"></div>
+
+<h1 id="headerTitle"></h1>
+
+<div id="legend">
+<span class="legendBox" style="background:#c8f7c5"></span>1ワード　
+<span class="legendBox" style="background:#cce5ff"></span>2ワード　
+<span class="legendBox" style="background:#ffcccc"></span>アクセス制限
+<br>
+<span class="legendBox" style="display: inline-block; width: 1.2em; height: 1.2em; background: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔍</text></svg>') no-repeat center; background-size: contain; vertical-align: middle;"></span> 検索ヒントあり　
+<span class="legendBox" style="display: inline-block; width: 1.2em; height: 1.2em; background: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>') no-repeat center; background-size: contain; vertical-align: middle;"></span> ひらめきヒントあり
+<br>
+<span class="legendBox" style="display: inline-block; width: 1.2em; height: 1.2em; background: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔑</text></svg>') no-repeat center; background-size: contain; vertical-align: middle;"></span> ネタバレ（ワンクッションあり）　※ネタバレモードのみ解放
+</div>
+
+<a id="guideBtn" href="https://fuen-dreamer.github.io/ARGtool/HintViewer/HintViewerGuide" target="_blank">❓ 利用ガイド</a>
+
+<div id="levelPanel"></div>
+<div id="mermaid"></div>
+
+<div id="credit">
+  このフロチャートは
+  <a href="https://fuen-dreamer.github.io/ARGtool/HintViewer/HintViewerPortal" target="_blank">このサイト</a>
+  で作成されました
+</div>
+
+<div id="modal">
+  <div id="modalContent">
+    <div id="modalBody"></div>
+    <button onclick="closeModal()">閉じる</button>
+  </div>
+</div>
+
+<script>
+mermaid.initialize({
+ startOnLoad:false,
+ flowchart:{
+  nodeSpacing:80,
+  rankSpacing:100,
+  curve:"linear"
+ }
+})
+
+// ===== 状態 =====
+let pages={}
+let lvLimit=0
+let hintEnabled=false
+let spoilerEnabled=false
+let currentOpenId=null
+let currentScale=1
+let lastFocusedId="0"
+let isFirstRender=true
+let isLevelChanged=false
+
+window.addEventListener("load", ()=>{
+  localStorage.removeItem("hintUnlock")
+})
+
+// ===== ズーム =====
+function applyZoom(){
+  const svg=document.querySelector("#mermaid svg")
+  if(!svg) return
+  svg.style.transform=`scale(${currentScale})`
+}
+
+function zoom(rate){
+  currentScale*=rate
+  currentScale=Math.min(10,Math.max(0.2,currentScale))
+  applyZoom()
+}
+
+function resetZoom(){
+  currentScale=1
+  applyZoom()
+}
+
+const mermaidDiv = document.getElementById("mermaid")
+
+// ===== スクロール =====
+mermaidDiv.addEventListener("scroll", ()=>{
+  localStorage.setItem("scrollX", mermaidDiv.scrollLeft)
+  localStorage.setItem("scrollY", mermaidDiv.scrollTop)
+})
+
+// ===== スクロール中心移動 =====
+function scrollToNode(id){
+  const node=mermaidDiv.querySelector(`[data-id='${id}']`)
+  if(!node) return
+
+  const rect=node.getBoundingClientRect()
+  const parentRect=mermaidDiv.getBoundingClientRect()
+
+  mermaidDiv.scrollLeft += rect.left - parentRect.left - mermaidDiv.clientWidth/2 + rect.width/2
+  mermaidDiv.scrollTop  += rect.top  - parentRect.top  - mermaidDiv.clientHeight/2 + rect.height/2
+}
+
+// ===== BOOT演出 =====
+function runBoot(done){
+
+  const overlay=document.getElementById("introOverlay")
+
+  currentScale=0.6
+  applyZoom()
+
+  let start=performance.now()
+  let duration=1000
+
+  function animate(now){
+    let t=Math.min(1,(now-start)/duration)
+    let ease=1-Math.pow(1-t,3)
+
+    currentScale=0.6+(1.0-0.6)*ease
+    applyZoom()
+
+    scrollToNode("0")
+
+    if(t<1){
+      requestAnimationFrame(animate)
+    }else{
+      setTimeout(()=>{
+        overlay.style.display="none"
+        document.getElementById("guideBtn").classList.add("show")
+        isFirstRender=false
+        done&&done()
+      },300)
+    }
+  }
+
+  requestAnimationFrame(animate)
+}
+
+// ===== ダミー =====
+function fakeText(lines=2){
+  let t=""
+  for(let i=0;i<lines;i++){
+    let len=8+Math.floor(Math.random()*10)
+    t+=`<span class="fakeLine">${"■".repeat(len)}</span>`
+  }
+  return `<div class="fakeText">${t}</div>`
+}
+
+function setColor(btn,on,color){
+  btn.style.background=on?color:"#eee"
+  btn.style.color=on?"#fff":"#000"
+}
+
+// ===== UI初期化 =====
+function initUI(){
+
+  const GOAL_LEVEL = CONFIG.goalLevel ?? 11
+  const EX_LEVEL = CONFIG.exLevel ?? 12
+  const MAX_LEVEL = CONFIG.maxLevel ?? 11
+
+  // ===== LVボタン =====
+  let lvBtns=[]
+  lvLimit = 0
+
+  for(let i=0;i<=MAX_LEVEL;i++){
+
+    let b=document.createElement("button")
+
+    if(i === GOAL_LEVEL){
+      b.innerText="🏁 ゴール"
+    }else if(i===EX_LEVEL){
+      b.innerText="EX"
+    }else{
+      b.innerText="Lv"+i
+    }
+    b.className="levelBtn"
+
+    b.onclick=()=>{
+      lvLimit=i
+      isLevelChanged=true
+
+      lvBtns.forEach(x=>{x.style.background="#eee";x.style.color="#000"})
+      setColor(
+        b,
+        true,
+        i===GOAL_LEVEL ? "#f0ad4e" : i===EX_LEVEL ? "#9c27b0" : "#2196f3"
+      )
+
+      render()
+    }
+
+    if(i===0) setColor(b,true,"#2196f3")
+
+    lvBtns.push(b)
+    levelPanel.appendChild(b)
+  }
+
+  // ===== ヒント =====
+  let hintBtn=document.createElement("button")
+  hintBtn.className="levelBtn"
+  hintBtn.innerText="🚫 ヒントOFF"
+  hintBtn.onclick=()=>{
+    hintEnabled=!hintEnabled
+    hintBtn.innerText=hintEnabled?"💡 ヒントON":"🚫 ヒントOFF"
+    setColor(hintBtn,hintEnabled,"#4caf50")
+    render()
+  }
+  levelPanel.appendChild(hintBtn)
+
+  // ===== ネタバレ =====
+  let spoilerBtn=document.createElement("button")
+  spoilerBtn.className="levelBtn"
+  spoilerBtn.innerText="🚫 ネタバレOFF"
+  spoilerBtn.onclick=()=>{
+    spoilerEnabled=!spoilerEnabled
+    spoilerBtn.innerText=spoilerEnabled?"🔑 ネタバレON":"🚫 ネタバレOFF"
+    setColor(spoilerBtn,spoilerEnabled,"#d9534f")
+    render()
+  }
+  levelPanel.appendChild(spoilerBtn)
+
+  // ===== ズーム =====
+  let zoomInBtn=document.createElement("button")
+  zoomInBtn.className="levelBtn"
+  zoomInBtn.innerText="＋"
+  zoomInBtn.onclick=()=>zoom(1.2)
+  levelPanel.appendChild(zoomInBtn)
+
+  let zoomOutBtn=document.createElement("button")
+  zoomOutBtn.className="levelBtn"
+  zoomOutBtn.innerText="－"
+  zoomOutBtn.onclick=()=>zoom(0.8)
+  levelPanel.appendChild(zoomOutBtn)
+
+  let resetBtn=document.createElement("button")
+  resetBtn.className="levelBtn"
+  resetBtn.innerText="リセット"
+  resetBtn.onclick=()=>resetZoom()
+  levelPanel.appendChild(resetBtn)
+}
+
+// ===== 設定読み込み =====
+let CONFIG = {}
+
+function validateConfig(cfg){
+
+  // ===== 基本チェック =====
+  if(!cfg || typeof cfg !== "object"){
+    throw new Error("config.json がオブジェクトではありません")
+  }
+
+  // ===== 必須 =====
+  const requiredKeys = [
+    "pageTitle",
+    "headerTitle"
+  ]
+
+  requiredKeys.forEach(key=>{
+    if(!(key in cfg)){
+      throw new Error(`config.json に必須項目がありません: ${key}`)
+    }
+    if(typeof cfg[key] !== "string"){
+      throw new Error(`config.json: ${key} は文字列である必要があります`)
+    }
+  })
+
+  // ===== 準必須（デフォルト付き）=====
+  const defaults = {
+    maxLevel: 12,
+    goalLevel: 11,
+    exLevel: 12
+  }
+
+  for(const key in defaults){
+
+    if(!(key in cfg)){
+      cfg[key] = defaults[key]
+      continue
+    }
+
+    if(typeof cfg[key] !== "number"){
+      throw new Error(`config.json: ${key} は number である必要があります`)
+    }
+  }
+
+  // ===== 整合性チェック =====
+
+  // 0以上
+  if(cfg.maxLevel < 0 || cfg.goalLevel < 0 || cfg.exLevel < 0){
+    throw new Error("level系は 0以上である必要があります")
+  }
+
+  // maxLevel と goalLevel
+  if(cfg.goalLevel > cfg.maxLevel){
+    throw new Error("goalLevel は maxLevel 以下である必要があります")
+  }
+
+  // goalとEXが同じ
+  if(cfg.goalLevel === cfg.exLevel){
+    throw new Error("goalLevel と exLevel が同じです（区別がつきません）")
+  }
+
+  return cfg
+}
+
+Promise.all([
+  fetch("config.json").then(r=>r.json()),
+  fetch("nodes.json").then(r=>r.json())
+]).then(([cfg, nodes]) => {
+
+  CONFIG = validateConfig(cfg)
+  pages = nodes
+
+  // タブタイトル
+  document.title = CONFIG.pageTitle || ""
+
+  // BOOTメッセージ
+  document.getElementById("introOverlay").innerHTML = CONFIG.bootMessage || ""
+
+  // ヘッダー
+  document.getElementById("headerTitle").innerText = CONFIG.headerTitle || ""
+
+  initUI()
+  render()
+}).catch(err=>{
+  console.error(err)
+
+  document.body.innerHTML = `
+    <div style="padding:20px;color:#fff;background:#111;font-family:monospace;">
+      <h2>⚠️ CONFIG ERROR</h2>
+      <pre>${err.message}</pre>
+    </div>
+  `
+})
+
+// ===== 描画 =====
+function render(){
+
+  const GOAL_LEVEL = CONFIG.goalLevel ?? 11
+  const EX_LEVEL = CONFIG.exLevel ?? 12
+  const MAX_LEVEL = CONFIG.maxLevel ?? 11
+
+  let unlocked=JSON.parse(localStorage.getItem("hintUnlock")||"{}")
+
+  let g=`flowchart TB\n`
+  let visible={},visited={}
+
+  for(let p in pages){
+
+    // Lv制限
+    if(pages[p].lv > MAX_LEVEL) continue
+
+    if(pages[p].lv<=lvLimit) visible[p]=1
+  }
+
+  function dfs(n){
+    if(!visible[n]||visited[n])return
+    visited[n]=1
+    pages[n].next.forEach(dfs)
+  }
+  if(visible["0"]) dfs("0")
+
+  for(let p in visible){
+    let page=pages[p]
+    let isOpen=unlocked["k"+p]
+
+    let icons=""
+    if(page.lv===GOAL_LEVEL) icons+=" 🏁"
+    if(page.lv===EX_LEVEL) icons+=" EX"
+
+    if(hintEnabled){
+      if(page.search) icons+=" 🔍"
+      if(page.idea) icons+=" 💡"
+    }
+
+    if(spoilerEnabled){
+      if(page.keyword) icons+=" 🔑"
+      else if(page.lv!==0 && page.lv!==GOAL_LEVEL && page.lv!==EX_LEVEL) icons+=" 📄"
+    }
+
+    let titleLine=""
+    if(page.lv===0){
+      titleLine=(hintEnabled&&page.title)?`<br><b>${page.title}</b>`:""
+    }else{
+      titleLine=(!spoilerEnabled||!isOpen)?`<br><b>？？？</b>`:`<br><b>${page.title||""}</b>`
+    }
+
+    let keywordLine=""
+    if(spoilerEnabled&&page.keyword){
+      keywordLine=isOpen?`<br>🔑 ${page.keyword}`:`<br>🔑 ？？？`
+    }
+
+    let displayId=(p==="0")?"スタート":p
+
+    // 表記だけ消す
+    let lvText=(page.lv!==0 && page.lv!==GOAL_LEVEL && page.lv!==EX_LEVEL)?`<br>Lv${page.lv}`:"\n"
+
+    let label=(p==="0")
+      ?`${displayId}<br>${icons}${titleLine}${keywordLine}`
+      :`${displayId}${titleLine}${lvText}${icons}${keywordLine}`
+
+    g+=`${p}["<div data-id='${p}'>${label}</div>"]\n`
+  }
+
+  // ===== キーワードグループ化 =====
+  let keywordGroups={}
+  for(let p in visible){
+    let kw=pages[p].keyword
+    if(!kw) continue
+    if(!keywordGroups[kw]) keywordGroups[kw]=[]
+    keywordGroups[kw].push(p)
+  }
+
+  // ===== クラスタ生成（2回以上のみ）=====
+  let keywordNodeMap={}
+  let kid=0
+
+  for(let kw in keywordGroups){
+
+    if(keywordGroups[kw].length < 2) continue
+
+    let nodes = keywordGroups[kw].filter(id=>visible[id])
+    if(nodes.length < 2) continue
+
+    let hubId="kw"+(kid++)
+    keywordNodeMap[kw]=hubId
+
+    // クラスタ化
+    g += `subgraph ${hubId} [" "]\n`
+
+    nodes.forEach(n=>{
+      g += `${n}\n`
+    })
+
+    g += `end\n`
+  }
+
+  // ===== エッジ（クラスタ＋ラベル付き）=====
+  let edgeMap = {}
+
+  for(let p in visible){
+    let page = pages[p]
+
+    let fromHub = (page.keyword && keywordNodeMap[page.keyword])
+      ? keywordNodeMap[page.keyword]
+      : p
+
+    page.next.forEach(n=>{
+      if(!visible[n]) return
+
+      let toHub = (pages[n].keyword && keywordNodeMap[pages[n].keyword])
+        ? keywordNodeMap[pages[n].keyword]
+        : n
+
+      if(fromHub === toHub) return
+
+      let key = `${fromHub}-->${toHub}`
+
+      if(!edgeMap[key]){
+        edgeMap[key] = {
+          fromHub,
+          toHub,
+          nodes:new Set()
+        }
+      }
+
+      edgeMap[key].nodes.add(p)
+    })
+  }
+
+  // ===== 出力 =====
+  for(let key in edgeMap){
+
+    let {fromHub, toHub, nodes} = edgeMap[key]
+
+    if(fromHub.startsWith("kw")){
+      let label = [...nodes].sort((a,b)=>a-b).join(",")
+      g += `${fromHub}-->|${label}|${toHub}\n`
+    }else{
+      g += `${fromHub}-->${toHub}\n`
+    }
+  }
+
+  for(let p in visible){
+    let page=pages[p]
+
+    if(page.lv===GOAL_LEVEL){
+      g+=`style ${p} fill:#f0ad4e\n`
+      continue
+    }
+
+    if(page.lv===EX_LEVEL){
+      g+=`style ${p} fill:#e1bee7\n`
+      continue
+    }
+
+    if(!visited[p]){
+      g+=`style ${p} fill:#ffcccc\n`
+      continue
+    }
+
+    if(!hintEnabled) continue
+
+    if(page.keywordWords===1){
+      g+=`style ${p} fill:#c8f7c5\n`
+    }else if(page.keywordWords===2){
+      g+=`style ${p} fill:#cce5ff\n`
+    }else if(page.keywordWords===-1){
+      g+=`style ${p} fill:#ffcccc\n`
+    }
+  }
+
+  mermaid.render("graph"+Date.now(),g).then(res=>{
+    mermaidDiv.innerHTML=res.svg
+    applyZoom()
+    bind()
+
+    setTimeout(()=>{
+
+      if(isFirstRender){
+        runBoot(()=>{
+          scrollToNode("0")
+        })
+        return
+      }
+
+      const x=parseFloat(localStorage.getItem("scrollX")||0)
+      const y=parseFloat(localStorage.getItem("scrollY")||0)
+
+      if(isLevelChanged){
+        let target=lastFocusedId
+        if(!mermaidDiv.querySelector(`[data-id='${target}']`)) target="0"
+        scrollToNode(target)
+        isLevelChanged=false
+      }
+      else if(localStorage.getItem("scrollX")!==null){
+        mermaidDiv.scrollLeft=x
+        mermaidDiv.scrollTop=y
+      }
+      else{
+        scrollToNode("0")
+      }
+
+    },80)
+  })
+}
+
+// ===== bind =====
+function bind(){
+  mermaidDiv.querySelectorAll("g.node").forEach(node=>{
+    node.style.cursor="pointer"
+
+    node.onclick=(e)=>{
+      e.stopPropagation()
+      let id=node.querySelector("[data-id]")?.getAttribute("data-id")
+      if(!id) return
+
+      lastFocusedId=id
+      scrollToNode(id)
+      currentOpenId===id?closeModal():showHint(id)
+    }
+  })
+}
+
+// ===== unlock / modal =====
+function unlock(type,id){
+  let u=JSON.parse(localStorage.getItem("hintUnlock")||"{}")
+  u[type+id]=!u[type+id]
+  localStorage.setItem("hintUnlock",JSON.stringify(u))
+
+  lastFocusedId=String(id)
+  render()
+
+  setTimeout(()=>showHint(id),50)
+}
+
+// ===== ヒント =====
+function showHint(id){
+  let p=pages[id]
+  let unlocked=JSON.parse(localStorage.getItem("hintUnlock")||"{}")
+
+  let html=`<b>ページ ${id}</b>`
+
+  let isOpen=unlocked["k"+id]
+
+  let showTitle=(p.lv===0)?hintEnabled:(spoilerEnabled&&isOpen)
+
+  html+=`<br><span style="color:#666">${showTitle?p.title||"":"？？？"}</span><br><br>`
+
+  if(hintEnabled&&p.search){
+    let open=unlocked["s"+id]
+    html+=`<button class="hintBtn" onclick="unlock('s',${id})">${open?"🔒隠す":"🔍検索ヒント"}</button>
+    <div class="hintContent ${open?"":"locked"}">${open?p.search:fakeText(2)}</div>`
+  }
+
+  if(hintEnabled&&p.idea){
+    let open=unlocked["i"+id]
+    html+=`<button class="hintBtn" onclick="unlock('i',${id})">${open?"🔒隠す":"💡ひらめきヒント"}</button>
+    <div class="hintContent ${open?"":"locked"}">${open?p.idea:fakeText(2)}</div>`
+  }
+
+  if(spoilerEnabled&&(p.lv!==0||p.keyword)){
+    let open=isOpen
+
+    html+=`<button class="hintBtn" onclick="unlock('k',${id})">${open?"🔒隠す":"🔑 ネタバレ"}</button>
+    <div class="hintContent ${open?"":"locked"}">`
+
+    if(open){
+      html+=p.keyword||""
+    }else{
+      html+=fakeText(1)
+    }
+
+    html+=`</div>`
+  }
+
+  modalBody.innerHTML=html
+  modal.style.display="flex"
+  currentOpenId=id
+}
+
+function closeModal(){
+  modal.style.display="none"
+  currentOpenId=null
+}
+</script>
+
+</body>
+</html>
