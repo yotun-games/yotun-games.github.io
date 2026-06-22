@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title id=pagetitle>""の検索結果|株式会社ヨトゥン</title>
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="favicon.ico">
+</head>
+<body>
+<div id="header"></div>
+<div id="searchresult"><h1 id="resulttitle"></h1><span id="resultcount"></span></div>
+<main class="maintext">
+<div id="result"></div>
+</main>
+<footer id="footer"></footer>
+</body>
+<script src="search.js"></script>
+<script>
+fetch("header.html").then(res=>res.text()).then(data=>{document.getElementById("header").innerHTML = data;});
+fetch("footer.html").then(res=>res.text()).then(data=>{document.getElementById("footer").innerHTML = data;});
+const params=new URLSearchParams(window.location.search);
+const query=params.get("s");
+const mode=params.get("mode");
+if(query==null||query==""){
+  window.location.href="secret.html";
+}
+//ワード処理
+const keyword=query.toLowerCase().normalize("NFKC").split(/\s+/).filter(k=>k);
+if(keyword.length==0){
+  document.title=`"未入力"の検索結果|株式会社ヨトゥン`;
+const titleEl=document.getElementById("resulttitle");
+if(titleEl){
+  titleEl.textContent=`検索キーワードが未入力です`;
+}
+const countEl=document.getElementById("resultcount");
+if(countEl){
+  countEl.textContent=``;
+}
+const resultDiv=document.getElementById("result");
+  resultDiv.innerHTML="<p>キーワードが入力されていません。キーワードを入力し、再度検索してください。<br>仕様上、スペースのみで検索をした場合は未入力として扱われます。</p>"
+}else{
+//検索本体
+const result=pages.filter(p=>{
+  const pagekeyword=p.keywords.map(k=>k.toLowerCase());
+  const ngword=(p.ngwords||[]).map(k=>k.toLowerCase());
+  const keywordmatch=pagekeyword.every(sk=>keyword.includes(sk));
+  const ngkeyword=ngword.some(ng=>keyword.includes(ng));
+  return keywordmatch&&!ngkeyword;
+})
+//タイトル
+const searchword=query&&query.trim()?query:"未入力";
+document.title=`"${searchword}"の検索結果|株式会社ヨトゥン`;
+//見出し
+const titleEl=document.getElementById("resulttitle");
+if(titleEl){
+  titleEl.textContent=`"${searchword}"の検索結果`;
+}
+const countEl=document.getElementById("resultcount");
+if(countEl){
+  countEl.textContent=`${result.length}件`;
+}
+//検索結果表示
+const resultDiv=document.getElementById("result");
+if(result.length>0){resultDiv.innerHTML=result.map(s=>`<a href="${s.url}"><div class=resultcard><h2>${s.title}</h2></div></a>`).join("");}
+else{resultDiv.innerHTML="<p>申し訳ありませんが、お探しの情報は見つかりませんでした。<br>他のワードを用いて検索を行うか、単語の間にスペースを空けて検索を行ってください。</p>"}
+}
+</script>
+</html>
