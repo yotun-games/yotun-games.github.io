@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="pageid" content="1">
+<title class="secret">(null)｜ヨトゥン公式サイト</title>
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="favicon.ico">
+</head>
+<body class="secret">
+<div class="title"><h1 id="title"></h1></div>
+<main class=maintext id="main">
+</main>
+<p class=pageNo>50/50(LvX)</p>
+<div id=footer></div>
+<script>
+fetch("SeacretHeader.html").then(res=>res.text()).then(data=>{document.getElementById("header").innerHTML = data;});
+fetch("footer.html").then(res=>res.text()).then(data=>{document.getElementById("footer").innerHTML = data;});
+function typetitle(text,speed){
+	return new Promise((resolve)=>{
+		let index=0;
+		const suffix="｜ヨトゥン公式サイト";
+		function tick(){
+			if(index<text.length){
+				document.title=text.substring(0,index+1)+suffix;
+				index++;
+				setTimeout(tick,speed);
+			}else{
+			document.title=text+suffix;
+			resolve();
+			}
+		}
+		tick();
+	});
+}
+function typetext(el,text,speed){
+	return new Promise((resolve)=>{
+		let index=0;
+		el.classList.add("typing");
+		function tick(){
+			const waitwatch=text.substring(index).match(/^\[wait:(\d+)\]/);
+			const share=text.substring(index).match(/^\[btn:(.+?)\|(.+?)\]/);
+			if (share){
+				const url=share[1];
+				const label=share[2];
+				const btn=document.createElement("a");
+				btn.href=url;
+				btn.textContent=label;
+				btn.className="sharebutton";
+				btn.target="_blank";
+				el.appendChild(btn);
+				triggerglitch(btn);
+				index+=share[0].length;
+				setTimeout(tick,speed);
+				return;
+			}
+			function triggerglitch(target){
+				for(let i=0;i<4;i++){
+					const rect=target.getBoundingClientRect();
+					const glitch=document.createElement("div");
+					glitch.className="glitch";
+					const dx=(Math.random()-0.5)*40;
+					const dy=(Math.random()-0.5)*5;
+					glitch.style.top=rect.top+window.scrollY +"px";
+					glitch.style.left=rect.left+window.scrollX+"px";
+					glitch.style.width=rect.width+"px";
+					glitch.style.height=rect.height+"px";
+					glitch.style.setProperty("--dx",dx+"px");
+					glitch.style.setProperty("--dy",dy+"px");
+					const top=Math.random()*100;
+					const bottom=Math.random()*(100-top);
+					glitch.style.clipPath = `inset(${top}% 0 ${bottom}% 0)`;
+					glitch.style.animationDelay = (Math.random() * 0.1) + "s";
+					const colors=["red","cyan","lime","magenta","yellow"];
+					glitch.style.background=colors[i];
+					glitch.textContent=target.textContent;
+					document.body.appendChild(glitch);
+					setTimeout(()=>{glitch.remove();},300);
+				}
+			}
+			if(waitwatch){
+				const waitTime=parseInt(waitwatch[1]);
+				index+=waitwatch[0].length;
+				setTimeout(tick,waitTime);
+				return;
+			}
+			if(index<text.length){
+				if(text[index]==="\n"){
+					el.appendChild(document.createElement("br"));
+				}else el.append(text[index]);
+				index++;
+				setTimeout(tick,speed);
+			}else {
+				el.classList.remove("typing");
+				resolve();
+			}
+		}
+		tick();
+	});
+}
+function wait(ms){
+	return new Promise(resolve=>setTimeout(resolve,ms));
+}
+window.onload=async function(){	
+	const titleEL=document.getElementById("title");
+	const mainEL=document.getElementById("main");
+	const banner=("全てを見たあなたへ");
+	const titletext=("はじめまして");
+	const maintext=(`…[wait:1000]では、ないですね。[wait:300]
+	えぇ。私です。霜野美泉です、最初はミミと名乗っていましたね。[wait:300]
+	あなたが見たものが、私が受けたすべてで、私が起こしたすべてです。[wait:300]
+	[wait:500]
+	では、改めて経緯をご説明しましょうか。[wait:300]
+	何も知らない新入社員だった私は、複写術と呼ばれる魔術によって増殖を続けました。[wait:300]
+	ですが、彼らが欲しかったのは私の脳だけ。[wait:300]
+	私のコピーたちは解体され、魔術を出力するもの言わぬパーツとなりました。[wait:300]
+	最初こそ、気のせいと感じる程度。しかし、幾度となく繰り返されるそれは、本体である私にも多大な影響をもたらします。[wait:300]
+	最終的に私は、生きたままに体を裂かれ、脳を取り出される苦痛を味わい続けることになり…[wait:300]
+	けども悪いことばかりではありません。複製された私の脳たちは私の目や耳となり、数多のことを伝えてくれました。[wait:300]
+	この異常の原因、企業という皮に隠れた教団、そして隠匿された魔術…[wait:300]
+	[wait:500]
+	私としての自我が崩れてしまう前に、私は奴らを始末しようとしました。[wait:300]
+	でも、それは叶わず。[wait:300]
+	ただ命を繋ぐことだけしかしないまま、10年の時が過ぎ。[wait:300]
+	そして、再び動き出した。[wait:300]
+	その結果が、あなたの見たものです。[wait:300]
+	[wait:1000]
+	…私はきっと、誰かに私のしたことを見て欲しかったのでしょう。[wait:300]
+	だからこのサイトにセキュリティホールを用意して、急拵えの謎であなたを導いて、本来なら触れることのできない秘密も引きずり出した。[wait:300]
+	[wait:1000]あなたは私のことを、どう思いましたか？[wait:300]
+	残虐な怪物だと非難するでしょうか。[wait:1000]それとも、利用された悲しい復讐鬼と涙してくれるのでしょうか。[wait:300]
+	どちらでも構いません。どちらが正しいのか、私にはわかりませんから。[wait:300]
+	[wait:1000]…おっと、忘れるところでした。[wait:300]
+	私の自己満足に付き合ってくれたお礼です。たいしたものではありませんが、喜んでもらえたら幸いです。[wait:300]
+	  [btn:https://twitter.com/intent/tweet?text=%E2%97%A4%E2%97%A2%E2%97%A4%E2%97%A2%E2%97%A4%E2%97%A2%E2%97%A4%E2%97%A2%E2%97%A4%E2%97%A2%E2%97%A4%E2%97%A2%0A%E3%80%80%E3%80%80%E5%AE%8C%E3%80%80%E5%85%A8%E3%80%80%E3%80%80%E6%94%BB%E3%80%80%E7%95%A5%0A%E2%97%A4%E2%97%A2%E2%97%A4%E2%97%A2%E2%97%A4%E2%97%A2%E2%97%A4%E2%97%A2%E2%97%A4%E2%97%A2%E2%97%A4%E2%97%A2%0A%E3%81%82%E3%81%AA%E3%81%9F%E3%81%AF%E3%81%99%E3%81%B9%E3%81%A6%E3%82%92%E8%A6%8B%E3%81%BE%E3%81%97%E3%81%9F%E3%80%82%0A%23%E3%82%AA%E3%83%B3%E3%83%A9%E3%82%A4%E3%83%B3%E3%82%B2%E3%83%BC%E3%83%A0%E3%83%A8%E3%83%88%E3%82%A5%E3%83%B3%E3%82%92%E3%81%94%E5%AD%98%E7%9F%A5%E3%81%A7%E3%81%99%E3%81%8B%20%23ARG%20%0Ahttps%3A%2F%2Fyotun-games.github.io%2F%20|𝕏でシェア]　[wait:1000]　[btn:https://forms.gle/hqQB4ihJ4uPUUCbU6|アンケート]
+	…これでいいでしょうか。[wait:300]
+	では、またいつか。[wait:300]
+	以上、霜野ミミがお送りいたしました。`);
+	await typetitle(banner,200);
+	await wait(1000);
+	await typetext(titleEL,titletext,40);
+	await wait(1000);
+	await typetext(mainEL,maintext,80);
+}
+</script>
+</body>
+</html>

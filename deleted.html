@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="pageid" content="1">
+<title class="secret">削除済み｜ヨトゥン公式サイト</title>
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="favicon.ico">
+</head>
+<body class="secret">
+<div id=header></div>
+<div class="title"><h1>削除済み</h1></div>
+<main class=maintext>
+<p>本ページは既に削除されています。</p>
+</main>
+<p class=pageNo>28/50(Lv3)</p>
+<div id=footer></div>
+<script>
+fetch("SeacretHeader.html").then(res=>res.text()).then(data=>{document.getElementById("header").innerHTML = data;});
+fetch("footer.html").then(res=>res.text()).then(data=>{document.getElementById("footer").innerHTML = data;});
+</script>
+</body>
+</html>

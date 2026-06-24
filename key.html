@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="pageid" content="1">
+<title class="secret">鍵｜ヨトゥン公式サイト</title>
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="favicon.ico">
+</head>
+<body class="secret">
+<div id=header></div>
+<div class="title"><h1>鍵</h1></div>
+<main class=maintext>
+<p><div style="text-align:center">自らが辿ってきた道を、終点から始まりへと帰っていく。<br>
+道すがらにある、かつて拾った鍵たちを再び拾い集める。<br>
+そうすれば、鍵が姿を現すだろう。</div></p>
+</main>
+<p class=pageNo>46/50(LvX)</p>
+<div id=footer></div>
+<script>
+fetch("SeacretHeader.html").then(res=>res.text()).then(data=>{document.getElementById("header").innerHTML = data;});
+fetch("footer.html").then(res=>res.text()).then(data=>{document.getElementById("footer").innerHTML = data;});
+</script>
+</body>
+</html>

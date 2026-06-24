@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="pageid" content="1">
+<title class="secret">緊急連絡｜ヨトゥン公式サイト</title>
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="favicon.ico">
+</head>
+<body class="secret">
+<div id=header></div>
+<div class="title"><h1>緊急連絡</h1></div>
+<main class=maintext>
+<p>本日、実験中に原本である職員霜野が現れました。<br>
+<br>
+実験の日程は実験参加者のみに口頭で共有しており、警備員による目視・監視カメラ・監視魔術の3視点より、部外者による盗聴がなかったことを確認しています。<br>
+<br>
+以上のデータより、過去に推測されていた「職員霜野は複写術によって作られた脳と知覚を共有している」という仮説がほぼ確実なものとなります。<br>
+<br>
+現在は魔術師たちによって捕縛に成功しており、所定の場所にて一時的に拘留しておりますが、社内課および研究2課の職員は大至急弊社裏の山中に集合をお願いします。<br>
+<br>
+なお、本事案にて死者9名(うち魔術師8名)、負傷者55名(うち魔術師37名)の被害が発生しております。</p>
+</main>
+<p class=pageNo>40/50(LvX)</p>
+<div id=footer></div>
+<script>
+fetch("SeacretHeader.html").then(res=>res.text()).then(data=>{document.getElementById("header").innerHTML = data;});
+fetch("footer.html").then(res=>res.text()).then(data=>{document.getElementById("footer").innerHTML = data;});
+</script>
+</body>
+</html>
