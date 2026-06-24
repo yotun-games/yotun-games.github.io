@@ -254,19 +254,19 @@ const pages=[
 	{//45
 		title:"新聞記事",//ページタイトル
 		url:"newspaper.html",//ページURL
-		keywords:["474c4549504e4952"],//検索ワード(AND検索、順不同)
+		keywords:["GLEIPNIR"],//検索ワード(AND検索、順不同)
 		ngwords:[""]//NGワード()1つでもあると除外　未記入OK
 	},
 	{//46
 		title:"道",//ページタイトル
 		url:"road.html",//ページURL
-		keywords:["474c4549504e4952"],//検索ワード(AND検索、順不同)
+		keywords:["GLEIPNIR"],//検索ワード(AND検索、順不同)
 		ngwords:[""]//NGワード()1つでもあると除外　未記入OK
 	},
 	{//47
 		title:"鍵",//ページタイトル
 		url:"key.html",//ページURL
-		keywords:["474c4549504e4952"],//検索ワード(AND検索、順不同)
+		keywords:["GLEIPNIR"],//検索ワード(AND検索、順不同)
 		ngwords:[""]//NGワード()1つでもあると除外　未記入OK
 	},
 	{//48
