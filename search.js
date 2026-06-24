@@ -248,7 +248,7 @@ const pages=[
 	{//44
 		title:"名称変更のお知らせ",//ページタイトル
 		url:"yggdrasill.html",//ページURL
-		keywords:["474c4549504e4952"],//検索ワード(AND検索、順不同)
+		keywords:["GLEIPNIR"],//検索ワード(AND検索、順不同)
 		ngwords:[""]//NGワード()1つでもあると除外　未記入OK
 	},
 	{//45
