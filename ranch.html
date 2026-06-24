@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="pageid" content="1">
+<title class="secret">企業データ：ギョル牧場｜ヨトゥン公式サイト</title>
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="favicon.ico">
+</head>
+<body class="secret">
+<div id=header></div>
+<div class="title"><h1>企業データ：ギョル牧場</h1></div>
+<main class=maintext>
+<p>企業名：ギョル牧場<br>
+設立：2009/07/13<br>
+所在地：121 Baldr street Edinburgh U.K.<br>
+資本金：500万円<br>
+担当者：九頭竜　百舌鳥<br>
+従業員数：16人(魔術関係者のみで構成)<br>
+売上高：1.3億円<br>
+事業内容：家畜の飼育、乳製品・食肉の加工・販売、生贄の在庫確保<br>
+魔術担当部署：牧場職員全員</p>
+</main>
+<p class=pageNo>25/50(Lv3)</p>
+<div id=footer></div>
+<script>
+fetch("SeacretHeader.html").then(res=>res.text()).then(data=>{document.getElementById("header").innerHTML = data;});
+fetch("footer.html").then(res=>res.text()).then(data=>{document.getElementById("footer").innerHTML = data;});
+</script>
+</body>
+</html>
