@@ -258,14 +258,14 @@ const pages=[
 		ngwords:[""]//NGワード()1つでもあると除外　未記入OK
 	},
 	{//46
-		title:"道",//ページタイトル
-		url:"road.html",//ページURL
+		title:"鍵",//ページタイトル
+		url:"key.html",//ページURL
 		keywords:["GLEIPNIR"],//検索ワード(AND検索、順不同)
 		ngwords:[""]//NGワード()1つでもあると除外　未記入OK
 	},
 	{//47
-		title:"鍵",//ページタイトル
-		url:"key.html",//ページURL
+		title:"道",//ページタイトル
+		url:"road.html",//ページURL
 		keywords:["GLEIPNIR"],//検索ワード(AND検索、順不同)
 		ngwords:[""]//NGワード()1つでもあると除外　未記入OK
 	},
