@@ -44,9 +44,9 @@
 "42":{"lv":5,"title":"2015年日記","next":[],"keyword":"","search":"","idea":"","keywordWords":0,"url":""},
 "43":{"lv":5,"title":"2016年日記","next":[44,45,46,47],"keyword":"","search":"","idea":"","keywordWords":0,"url":""},
 "44":{"lv":5,"title":"名称変更のお知らせ","next":[48],"keyword":"GLEIPNIR","search":"この伏字、なんだか規則的に並んでませんか？","idea":"","keywordWords":1,"url":""},
-"45":{"lv":5,"title":"新聞記事","next":[48],"keyword":"GLEIPNIR","search":"この伏字、なんだか規則的に並んでませんか？","idea":"",,"keywordWords":1,"url":""},
-"46":{"lv":5,"title":"鍵","next":[48],"keyword":"GLEIPNIR","search":"この伏字、なんだか規則的に並んでませんか？","idea":"",,"keywordWords":1,"url":""},
-"47":{"lv":5,"title":"道","next":[48],"keyword":"GLEIPNIR","search":"この伏字、なんだか規則的に並んでませんか？","idea":"",,"keywordWords":1,"url":""},
+"45":{"lv":5,"title":"新聞記事","next":[48],"keyword":"GLEIPNIR","search":"この伏字、なんだか規則的に並んでませんか？","idea":"","keywordWords":1,"url":""},
+"46":{"lv":5,"title":"鍵","next":[48],"keyword":"GLEIPNIR","search":"この伏字、なんだか規則的に並んでませんか？","idea":"","keywordWords":1,"url":""},
+"47":{"lv":5,"title":"道","next":[48],"keyword":"GLEIPNIR","search":"この伏字、なんだか規則的に並んでませんか？","idea":"","keywordWords":1,"url":""},
 "48":{"lv":5,"title":"(null)","next":[49],"keyword":"ラグナロク(Ragnarøk,Ragnarök,Ragnarokでも可)","search":"過去の謎解きを思い出して","idea":"2016年日記→復元キー→甘い星の順番です　長文ですが頑張って","keywordWords":-1,"url":""},
 "49":{"lv":5,"title":"””の検索結果","next":[50],"keyword":"未入力状態で検索","search":"窓をからっぽにしてみましょう","idea":"窓は窓でも…","keywordWords":0,"url":""},
 "50":{"lv":5,"title":"全てを見たあなたへ","next":[],"keyword":"","search":"あれ、この文字…","idea":"","keywordWords":0,"url":""}
