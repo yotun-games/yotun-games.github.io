@@ -206,7 +206,7 @@ const pages=[
 	{//31
 		title:"代表取締役担当者各位へ通達",//ページタイトル
 		url:"notification.html",//ページURL
-		keywords:["大典太出弦","代表取締役担当者"],//検索ワード(AND検索、順不同)
+		keywords:["大典太出弦"],//検索ワード(AND検索、順不同)
 	},
 	{//32
 		title:"AMaSS取扱説明書",//ページタイトル
