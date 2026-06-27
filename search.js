@@ -292,5 +292,65 @@ const pages=[
 		url:"null.html",//ページURL
 		keywords:["ラグナロク"],//検索ワード(AND検索、順不同)
 		ngwords:[""]//NGワード()1つでもあると除外　未記入OK
+	},,
+	{
+		title:"不足:束ねた首による魔術行使",//ページタイトル
+		url:"shortage.html",//ページURL
+		keywords:["束ねた首による魔術行使"],//検索ワード(AND検索、順不同)
+		ngwords:["4e6a6f726f72"]//NGワード()1つでもあると除外　未記入OK
+	},
+	{
+		title:"不足:束ねた首",//ページタイトル
+		url:"shortage.html",//ページURL
+		keywords:["束ねた首"],//検索ワード(AND検索、順不同)
+		ngwords:["4e6a6f726f72"]//NGワード()1つでもあると除外　未記入OK
+	},
+	{
+		title:"不足:不死の首",//ページタイトル
+		url:"shortage.html",//ページURL
+		keywords:["不死の首"],//検索ワード(AND検索、順不同)
+		ngwords:["4e6a6f726f72"]//NGワード()1つでもあると除外　未記入OK
+	},
+	{
+		title:"不足:複写術",//ページタイトル
+		url:"shortage.html",//ページURL
+		keywords:["複写術"],//検索ワード(AND検索、順不同)
+		ngwords:["4e6a6f726f72"]//NGワード()1つでもあると除外　未記入OK
+	},
+	{
+		title:"不足:魔導血液",//ページタイトル
+		url:"shortage.html",//ページURL
+		keywords:["魔導血液"],//検索ワード(AND検索、順不同)
+		ngwords:["4e6a6f726f72"]//NGワード()1つでもあると除外　未記入OK
+	},
+	{
+		title:"不足:適合職員",//ページタイトル
+		url:"shortage.html",//ページURL
+		keywords:["適合職員"],//検索ワード(AND検索、順不同)
+		ngwords:["4e6a6f726f72"]//NGワード()1つでもあると除外　未記入OK
+	},
+	{
+		title:"不足:ユグドラシルグループ",//ページタイトル
+		url:"shortage.html",//ページURL
+		keywords:["ユグドラシルグループ"],//検索ワード(AND検索、順不同)
+		ngwords:["ビフレスト製薬","ギンヌン・ガガプゲームズ","ギョル牧場"]//NGワード()1つでもあると除外　未記入OK
+	},
+	{
+		title:"不足:ビフレスト製薬",//ページタイトル
+		url:"shortage.html",//ページURL
+		keywords:["ビフレスト製薬"],//検索ワード(AND検索、順不同)
+		ngwords:["ユグドラシルグループ"]//NGワード()1つでもあると除外　未記入OK
+	},
+	{
+		title:"不足:ギョル牧場",//ページタイトル
+		url:"shortage.html",//ページURL
+		keywords:["ギョル牧場"],//検索ワード(AND検索、順不同)
+		ngwords:["ユグドラシルグループ"]//NGワード()1つでもあると除外　未記入OK
+	},
+	{
+		title:"不足:ギンヌン・ガガプゲームズ",//ページタイトル
+		url:"shortage.html",//ページURL
+		keywords:["ギンヌン・ガガプゲームズ"],//検索ワード(AND検索、順不同)
+		ngwords:["ユグドラシルグループ"]//NGワード()1つでもあると除外　未記入OK
 	},
 ];
