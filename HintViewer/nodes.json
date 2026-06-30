@@ -35,7 +35,7 @@
 "33":{"lv":4,"title":"AMaSS実験結果","next":[34],"keyword":"487567696e4d756e696e","search":"閲覧キーが丸見えです","idea":"","keywordWords":1,"url":""},
 "34":{"lv":4,"title":"処分結果報告書","next":[35],"keyword":"476e69706168656c6c6972","search":"たくさんあるけど目を通しましょう","idea":"","keywordWords":1,"url":""},
 "35":{"lv":4,"title":"調査完了","next":[36],"keyword":"","search":"","idea":"","keywordWords":0,"url":""},
-"36":{"lv":4,"title":"対象がありません","next":[37,39,41],"keyword":"65696e6865726a6172","search":"物語に隠された文字を日付順に並べましょう","idea":"","keywordWords":1,"url":""},
+"36":{"lv":4,"title":"対象がありません","next":[37,39,41],"keyword":"65696e6865726a6172","search":"物語(ストーリー)に言葉が隠されているようです","idea":"それぞれのページに読む文字を指し示す数があるようです","keywordWords":1,"url":""},
 "37":{"lv":5,"title":"個人フォルダ：職員番号486f656e6972(復元コード適用)","next":[38],"keyword":"65696e6865726a6172 486f656e6972","search":"鍵を一緒に使ってみると…?","idea":"","keywordWords":2,"url":""},
 "38":{"lv":5,"title":"サーバーメンテナンスのお知らせ","next":[],"keyword":"","search":"","idea":"","keywordWords":0,"url":""},
 "39":{"lv":5,"title":"個人フォルダ：職員番号4e6a6f726f72(復元コード適用)","next":[40],"keyword":"65696e6865726a6172 4e6a6f726f72","search":"鍵を一緒に使ってみると…?","idea":"","keywordWords":2,"url":""},
